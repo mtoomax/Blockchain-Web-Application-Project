@@ -1,0 +1,146 @@
+
+html, body {
+    display: flex; /*activate flex*/
+    background-color: white;
+    text-align: center;
+    height: 100%; /*fill view*/
+    flex-direction: column; /*aligns column*/
+    font-family: Arial,Futura,Helvetica;
+    margin-top: 20px;
+}
+
+* {
+	box-sizing: border-box;/*includes border*/
+}
+
+
+
+header { /*header for logo*/
+
+    background-color: white;
+    padding: 10px;
+    text-align: center; /*centres logo*/
+}
+
+
+
+
+.flex-container-1 { /*for navigator*/
+	display: flex; 	
+	background-color: black;
+	padding:0px;
+	flex-wrap: wrap; /*truncate text*/
+	justify-content: center;  
+	align-items: center;
+	color:white;
+	gap: 40px; 
+}
+
+
+
+
+.flex-container-2 { /*flex box two*/
+
+    display: flex; /*enables flex*/
+    justify-content: center;
+}
+
+
+.flex-container-1 a { /*links*/
+
+    text-decoration: none;
+    color: white;
+}
+
+    .flex-container-1 a:hover { /*hover effect*/
+
+        text-decoration: none;
+        color: blue;
+
+    }
+
+
+
+.container-box-1{ /*box with links*/
+	background-color: black;
+	width:200px; 
+	margin: 0px;
+	text-align: center;
+	font-size:30px;
+	color : white;
+}
+
+
+
+.container-box-2{
+	
+    flex-basis:50%; /*Take up 50%*/
+	background-color:white;   
+	text-align:center;	/*centre the text*/
+	
+}
+
+
+.correction{ /*error messages  */
+
+	font-style: italic;
+	color:red;
+
+}
+
+.responsiveDesign { /* adapts logo */
+
+  width: 100%; /*Fill the screen width*/
+  height: auto;
+  
+}
+
+
+input[type=text],input[type=date], select, .button { /*style for buttons */
+	
+	width: 400px; 
+	margin:10px;
+	
+}
+
+ 
+.button, #buttonSubmit {
+	
+		border-radius: 10px; /*soft corners*/
+		
+	}
+
+    .button:hover, #buttonSubmit:hover { /*hover effect*/
+
+        background-color: lightgreen;
+        border-color: green;
+        color: white;
+    } 	 
+
+.myform{	
+ 
+	margin:30px;
+	
+}
+
+
+@media (max-width: 850px) { /* Media query */
+
+	.flex-container-1,.flex-container-2 {
+		
+	flex-direction: column;  
+	text-align:center; 
+	justify-content:center; 
+	
+	}
+  }
+
+
+.row::after { /*clearfix*/
+
+    display: table;
+    clear: both;
+    content: "";
+}
+
+

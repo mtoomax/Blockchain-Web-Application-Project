@@ -1,0 +1,107 @@
+body {
+    display: flex; /*activates flex*/
+    background-color: white; /*minmalist white design for clarity*/
+    text-align: center;
+    margin: 0px; /*Removes Margin*/
+    height: 100%; /*fill view port stops gaps*/
+    flex-direction: column; /*aligns column*/
+    font-family: Helvetica,Arial,Futura; /*chose minimalist font*/
+    margin-top: 10px; /*leaves space between header and body*/
+}
+
+* {
+    box-sizing: border-box; /*includes border and padding in calculation*/
+}
+
+header {
+    background-color: white;
+    padding: 10px; /*pads the logo*/
+    text-align: center; /*centres logo*/
+}
+
+.flex-container-1 { /*for navigator*/
+    display: flex;
+    flex-direction: row; /*row of links when above 850px*/
+    background-color: black;
+    padding: 0px;
+    flex-wrap: wrap; /*truncate*/
+    justify-content: center; /*left aligns links*/
+    align-items: center;
+}
+
+.flex-container-2 { /*picture flex*/
+    display: flex; /*enables flex*/
+    flex-direction: row; /*flexbox row*/
+    justify-content: center; /*Places child elements in the centre*/
+}
+
+.container-box-1 {
+    background-color: black;
+    width: 200px; /*allows 200px for text*/
+    margin: 0px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.container-box-2 img {
+    object-fit: cover;
+    height: 100%; /*fill the space height wise*/
+    width: 100%; /*fill the space length wise*/
+}
+
+.container-box-2 {
+    flex-basis: 50%; /*Take up 50% of container space*/
+    background-color: lightgreen;
+    text-align: center;
+}
+
+.container-text-center {
+    padding-top: 10px;
+    padding-bottom: 50px; /*Keeps space between footer*/
+}
+
+a:hover {
+    background-color: white; /*on hover change colour to white*/
+    color: black; /*change text to black on hover*/
+}
+
+a {
+    text-decoration: none; /*do not highlight*/
+    color: white; /*white text*/
+}
+
+input[type=text], input[type=email], select, textarea {
+    width: 400px; /*Make input area all the same size*/
+    margin: 10px; /*creates space*/
+}
+
+footer {
+    height: 50px; /*footer height*/
+    position: relative; /*make room */
+    background-color: black;
+    text-align: center;
+    color: white; /*white text*/
+    left: 0; /*lock to the left very left of page*/
+    bottom: 0; /*lock to the bottom of page*/
+    width: 100% /*Fill the page*/
+}
+
+.myform {
+    margin: 30px;
+}
+
+
+@media (max-width: 850px) {
+    .flex-container-1, .flex-container-2, .container-box-1 {
+        flex-direction: column;
+        text-align: left; /*left align text when below 850px*/
+        justify-content: center; /*Places child elements in the centre*/
+    }
+}
+
+/* Clear floats after the columns */
+.row::after {
+    display: table;
+    clear: both;
+    content: "";
+}

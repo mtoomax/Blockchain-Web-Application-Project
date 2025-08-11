@@ -1,0 +1,252 @@
+<!--
+    Michael Toomey
+    10 /08 / 25
+    enterPlayerDetails.ejs
+-->
+
+<!DOCTYPE html><!-- Doctype -->
+<html>
+<head>
+  <meta charset="UTF-8"><!--special characters -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Responsive-->
+<link rel="stylesheet" href="/stylesheets/CSStest1.css"> <!--import css file-->
+ 
+
+</head>
+<body>
+<header>  <!-- Header section -->
+		<h1>
+       
+			<img src="/images/tennislogo.png"  style="width: 100px; height: 100px;" alt="Tennis Logo" >	
+			
+		</h1>
+	</header>
+  <div class="flex-container-1"><!-- Flexbox  links -->
+    <div class="container-box-1">
+      <a href="/">Home Page</a>
+    </div>
+    <div class="container-box-1">
+      <a href="/enterPlayerDetails">Enter Player Details</a>
+    </div>
+    <div class="container-box-1">
+      <a href="/searchPlayer">Search Player Record</a>
+    </div>
+  </div>
+
+  <div class="flex-container-2"><!-- Flexbox holding links -->
+
+  <!-- MetaMask and Contract buttons -->
+  <div class="container-box-2">
+    <div id="read">
+      <button onclick="connectMetamask()" class="button">CONNECT TO METAMASK</button>
+      <p id="user">Not Connected</p>
+
+      <button onclick="connectContract()" class="button">CONNECT TO CONTRACT AS COACH</button>
+      <p id="contract">Status: Not Connected</p>
+    </div> 
+  </div> 
+
+  
+  <div class="container-box-2">
+
+    <form onsubmit="submitPlayerDetails(event)" id="playerDetailsForm">
+
+      <label>Enter Tennis Player's Name:</label><br>
+      <input type="text" id="nameOfTennisPlayer" required><br>
+      <span id="formNameMessage" class="correction"></span><br>
+
+      <label>Enter Skill Achievement:</label><br>
+      <input type="date" id="dateOfAchievement" required><br>
+
+      <label>Tennis Player Skill Level:</label><br>
+      <select id="skillLevel" required>
+        <option value="">Select Skill Level</option>
+        <option value="0">Beginner</option>
+        <option value="1">Intermediate</option>
+        <option value="2">Advanced</option>
+        <option value="3">Elite</option>
+        <option value="4">Professional</option>
+      </select><br>
+
+      <label>Enter Wallet Address Of Tennis Player:</label><br>
+      <input type="text" id="walletAddress" required><br>
+      <span id="formWalletMessage" class="correction"></span>
+
+      <button type="submit" disabled>Submit</button>
+
+    </form>
+  </div> 
+
+</div> 
+
+ <p id="mint"></p>
+
+  
+
+  <script>
+    let contract;
+    let web3;
+    let account;
+	let metamaskConnected = false;
+    let contractConnected = false;
+    const walletPattern = /^0x[a-fA-F0-9]{40}$/; // pattern check for wallet address
+	const namePattern = /^[\s'A-Za-z]+$/; //pattern check for name
+
+	const nameOfPlayer = document.getElementById("nameOfTennisPlayer"); 
+    const walletOfPlayer = document.getElementById("walletAddress");
+    const formNameMessage = document.getElementById("formNameMessage"); 
+    const formWalletMessage = document.getElementById("formWalletMessage");
+
+
+
+function getButton() { //disable the submit button until connected to metamask and contravt connected
+
+    const buttonState = document.querySelector("#playerDetailsForm button[type=submit]");
+    buttonState.disabled = (!metamaskConnected || !contractConnected);
+
+}
+
+ 
+  nameOfPlayer.addEventListener("input", () => { 
+  if (!namePattern.test(nameOfPlayer.value)) {
+    formNameMessage.textContent = "Name must not contain numbers";
+  } else {
+    formNameMessage.textContent = "";
+  }
+});
+
+walletOfPlayer.addEventListener("input", () => { //check wallet pattern 
+  if (!walletPattern.test(walletOfPlayer.value)) {
+    formWalletMessage.textContent = "Invalid wallet address format";
+  } else {
+    formWalletMessage.textContent = "";
+  }
+});
+
+
+    const contractAddress = "0xfa6f60a4597643953dddbce96203eba6c587e566"; 
+
+    const connectMetamask = async () => { //connect to metamask 
+		
+      if (typeof window.ethereum === "undefined") { 
+        alert("Install MetaMask");
+        return;
+		
+      }
+
+      try {
+        web3 = new Web3(window.ethereum);
+        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" }); 
+        account = accounts[0];
+         metamaskConnected = true;
+        document.getElementById("user").innerText = `User Account: ${account}`;
+        getButton();  
+        metamaskConnected = true;
+         alert("Connected to MetaMask.");
+      } catch (err) {
+        console.error(err);
+        alert("Failed to connect MetaMask.");
+      }
+    };
+
+
+
+    const connectContract = async () => {
+      try {
+        contract = new web3.eth.Contract(abi, contractAddress);
+        document.getElementById("contract").innerText = "Connected to Contract";
+        const tx = await contract.methods.registerCoach(account).send({ from: account });
+        contractConnected = true;
+        getButton();
+        alert("Succeeded in registering coach");
+      } catch (err) {
+        console.error(err);
+        alert("Failed to register coach");
+      }
+    };
+	
+	 function getPinataURI(skillLevel) { 
+	
+      if (skillLevel === 0){
+	  
+		return "https://ipfs.io/ipfs/bafkreib47vvx4tg7t3beywg6gwhztgmsgedzlniq42g2awyu7fjscqyuki";
+	  
+	  }
+      else if (skillLevel === 1){
+	  
+		return "https://ipfs.io/ipfs/bafkreieo7w2l4fujce7lcyqsbocqsifeuf4wswoptquixq5sj657cxsj4u";
+		
+	  }
+      else if (skillLevel === 2){
+	  
+		return "https://ipfs.io/ipfs/bafkreihemijlh7qwdwx4glhajmfaxyejjodafxv7lynyammze3cl5hdfwm";
+
+	  }
+      else if (skillLevel === 3) {
+	  
+	  return "https://ipfs.io/ipfs/bafkreihgzgu3cijwt2kpqbavvucqfiscfnh4cwpiqriirgq53jjkn2466a";
+	  
+	  }
+	  else {
+	  
+		return "https://ipfs.io/ipfs/bafkreidaok23zvr36k3affrjm64aubgkv2yqhsee3vpzeqngsa22hbha2e";
+	  }
+		
+    }
+	
+
+    window.addEventListener('load', () => { //call getbutton when page loads 
+  getButton();
+});
+
+
+
+	async function submitPlayerDetails(event) { //pass even to function
+		
+      event.preventDefault(); //submit without reloading
+	  
+ if ((!namePattern.test(nameOfPlayer.value)) || (!walletPattern.test(walletOfPlayer.value))) { 
+  return;
+}
+
+
+      
+      const mintName = document.getElementById("nameOfTennisPlayer").value;
+      const mintDate = document.getElementById("dateOfAchievement").value;
+      const mintSkillLevel = parseInt(document.getElementById("skillLevel").value);
+      const addressOfPlayer = document.getElementById("walletAddress").value;
+      const tokenURI = getPinataURI(mintSkillLevel);
+
+   
+      const player = { //object 
+        mintName,
+        mintSkillLevel,
+        mintDate,
+        addressOfPlayer,
+        tokenURI
+      };
+
+      try { 
+       await contract.methods.mintTennisSkills([ //wait for function to finish
+         player.mintName,
+         player.mintSkillLevel,
+         player.mintDate,
+         player.addressOfPlayer,
+         player.tokenURI]).send({ from: account });
+        document.getElementById("mint").innerText = "NFT was successfully sent";
+        document.getElementById("playerDetailsForm").reset();
+      } catch (err) {
+        console.error(err);
+        document.getElementById("mint").innerText = "NFT failed to send";
+      }
+    }
+
+    
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script> 
+  <script src="/javascripts/playerdetailsabi.js"></script> 
+
+
+</body>
+</html>
